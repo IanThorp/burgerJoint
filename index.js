@@ -1,6 +1,4 @@
-var ordered = [];
-var cooking = [];
-var served = []
+var grills = [];
 
 var $ui, $orderedList, $cookingList, $servedList, burgerTemplate;
 
@@ -15,15 +13,7 @@ function cacheDom() {
 
 function generateOrder(orderNum) {
 	var selectedType = chooseBurgerType();
-	// console.log(ordered)
-	// console.log(cooking)
-	// console.log(served)
-	return {
-		type: selectedType,
-		notes: "",
-		complete: false,
-		orderNumber: orderNum
-	}
+	return new Burger(selectedType, orderNum);
 }
 
 function continuouslyGenerateOrders(interval, orderNum) {
@@ -48,10 +38,12 @@ function renderBurger(burger){
 	doubleClickListener(currentItem)
 }
 
-function createSortables() {
-	$("#cooking-list, #ordered-list").sortable({
-		connectWith: ".connectedSortable"
-	}).disableSelection();
+function createDraggables() {
+	$("#ordered-list").draggable()
+}
+
+function createDroppable() {
+	$("cooking-list").droppable()
 }
 
 function doubleClickListener(target){
@@ -62,17 +54,11 @@ function doubleClickListener(target){
 	})
 }
 
-function Drop(event, ui) {
-  var draggableId = $ui.draggable.attr("id");
-  var droppableId = $(this).attr("id");
-  console.log(draggableId, droppableId);
-}
-
 $(function(){
 	console.log("Success");
 	cacheDom();
 	createSortables();
-	continuouslyGenerateOrders(5000, 1);
+	continuouslyGenerateOrders(100000000000, 1);
 })
 
 
