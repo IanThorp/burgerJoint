@@ -35,7 +35,6 @@ main ul {
 .burger-item {
 	display: flex;
 	flex-direction: column;
-	background-color: cornsilk;
 	border: 1px solid navy;
 	width: 200px;
 }
@@ -48,6 +47,14 @@ main ul {
 	border: 1px, solid, purple;
 	height: 800px;
 	width: 300px;
+}
+
+.Vegetarian {
+	background-color: #BCED91;
+}
+
+.Beef {
+	background-color: #C67171;
 }
 
 .visible {

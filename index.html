@@ -26,8 +26,8 @@
 			<ul id="served-list"></ul>
 		</div>
 		<script id="burger-template" type="text/template">
-				<div class="burger-item">
-					<p class="visible">type: {{type}}</p>
+				<div class="burger-item {{type}}">
+					<p class="visible">{{type}}</p>
 					<p class="hidden">notes: {{notes}}</p>
 					<p class="hidden">served: {{complete}}</p>
 					<p class="hidden">number: {{orderNumber}}</p>

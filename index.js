@@ -2,14 +2,14 @@ var ordered = [];
 var cooking = [];
 var served = []
 
-var $ul, $orderedList, $cookingList, $servedList, burgerTemplate;
+var $ui, $orderedList, $cookingList, $servedList, burgerTemplate;
 
 function cacheDom() {
-	$ul = $('main');
-	$orderedList = $ul.find("#ordered-list");
-	$cookingList = $ul.find("#cooking-list");
-	$servedList = $ul.find("#served-list");
-	var templateScript = $ul.find("#burger-template").html();
+	$ui = $('main');
+	$orderedList = $ui.find("#ordered-list");
+	$cookingList = $ui.find("#cooking-list");
+	$servedList = $ui.find("#served-list");
+	var templateScript = $ui.find("#burger-template").html();
 	burgerTemplate = Handlebars.compile(templateScript);
 }
 
@@ -44,11 +44,8 @@ function chooseBurgerType() {
 function renderBurger(burger){
 	var burgerHtml = burgerTemplate(burger);
 	$orderedList.append(burgerHtml)
-	$orderedList.children().last().on('dblclick', function(){
-		$( this ).children().each(function(){
-			$( this ).toggleClass( "hidden" );
-		})
-	})
+	var currentItem = $orderedList.children().last()
+	doubleClickListener(currentItem)
 }
 
 function createSortables() {
@@ -57,17 +54,24 @@ function createSortables() {
 	}).disableSelection();
 }
 
-function doubleClickListener(){
-	$("#cooking-list , #ordered-list, #served-list").on('dblclick','li' , function(){
-		console.log($(this))
+function doubleClickListener(target){
+	target.on('dblclick', function(){
+		$( this ).children().each(function(){
+			$( this ).toggleClass( "hidden" );
+		})
 	})
+}
+
+function Drop(event, ui) {
+  var draggableId = $ui.draggable.attr("id");
+  var droppableId = $(this).attr("id");
+  console.log(draggableId, droppableId);
 }
 
 $(function(){
 	console.log("Success");
 	cacheDom();
 	createSortables();
-	doubleClickListener();
 	continuouslyGenerateOrders(5000, 1);
 })
 
