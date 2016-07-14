@@ -1,14 +1,23 @@
 var grills = [];
+var orders = [];
 
-var $ui, $orderedList, $cookingList, $servedList, burgerTemplate;
+var $ui, $orderedList, $grillSpaces, $servedList, burgerTemplate, grillTemplate;
 
 function cacheDom() {
 	$ui = $('main');
 	$orderedList = $ui.find("#ordered-list");
-	$cookingList = $ui.find("#cooking-list");
+	$grillSpaces = $ui.find("#grill-spaces");
 	$servedList = $ui.find("#served-list");
-	var templateScript = $ui.find("#burger-template").html();
-	burgerTemplate = Handlebars.compile(templateScript);
+	burgerTemplate = Handlebars.compile($ui.find("#burger-template").html());
+	grillTemplate = Handlebars.compile($ui.find("#grill-template").html());
+}
+
+function generateGrills(number){
+	for(var i = 1; i <= number; i++){
+		var grill = new Grill(i);
+		grill.render($grillSpaces, grillTemplate)
+		grills.push(grill);
+	}
 }
 
 function generateOrder(orderNum) {
@@ -18,8 +27,7 @@ function generateOrder(orderNum) {
 
 function continuouslyGenerateOrders(interval, orderNum) {
 	var currentBurger = generateOrder(orderNum);
-	console.log(currentBurger)
-	ordered.push(currentBurger);
+	orders.push(currentBurger)
 	renderBurger(currentBurger);
 	orderNum++;
 	setTimeout(function(){continuouslyGenerateOrders(interval, orderNum)}, interval);
@@ -36,14 +44,29 @@ function renderBurger(burger){
 	$orderedList.append(burgerHtml)
 	var currentItem = $orderedList.children().last()
 	doubleClickListener(currentItem)
+	createDraggables(currentItem)
 }
 
-function createDraggables() {
-	$("#ordered-list").draggable()
+function createDraggables(item) {
+	item.draggable({
+		revert: "invalid",
+		scope: "items",
+		helper: "clone"
+	})
 }
 
 function createDroppable() {
-	$("cooking-list").droppable()
+	$("#cooking-module").droppable({
+		scope: "items",
+		drop: function(event, ui){
+			var htmlId = $(ui.draggable).attr("id");
+			var orderIndex = parseInt(htmlId.replace("order-", ""));
+			orders[orderIndex].status = "queued";
+			$(ui.draggable).find(".status-text").text("queued");
+			$(ui.draggable).detach().appendTo("#beef-queue");
+			$(ui.draggable).draggable({disabled: "true"});
+		}
+	})
 }
 
 function doubleClickListener(target){
@@ -57,8 +80,9 @@ function doubleClickListener(target){
 $(function(){
 	console.log("Success");
 	cacheDom();
-	createSortables();
-	continuouslyGenerateOrders(100000000000, 1);
+	generateGrills(5);
+	createDroppable();
+	continuouslyGenerateOrders(3000000, 0);
 })
 
 

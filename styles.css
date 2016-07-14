@@ -37,16 +37,61 @@ main ul {
 	flex-direction: column;
 	border: 1px solid navy;
 	width: 200px;
+	align-items: center;
 }
 
 .burger-item p {
 	margin: 0;
 }
 
-#cooking-queue {
+#cooking-module {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#cooking-queues {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 100%;
+}
+
+#beef-queue, #veggie-queue {
 	border: 1px, solid, purple;
-	height: 800px;
-	width: 300px;
+	height: 200px;
+	width: 200px;
+	padding-left: 0;
+	background-color: cornsilk;
+	border: 1px solid black;
+}
+
+#grill-spaces {
+	width: 100%;
+	display: flex;
+	border: 1px solid green;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.grill {
+	background-color: grey;
+	width: 200px;
+	height: 200px;
+	margin: 10px;
+}
+
+#cooking-module {
+	flex: 2;
+}
+
+#ordered-module {
+	flex: 1;
+}
+
+#served-module {
+	flex: 1;
 }
 
 .Vegetarian {

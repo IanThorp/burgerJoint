@@ -19,21 +19,30 @@
 		</div>
 		<div id="cooking-module" class="burger-list">
 			<h2>Cooking</h2>
-			<ul id="veggie-queue"></ul>
-			<ul id="beef-queue"
-			<ul id="grilling-list"></ul>
+			<div id="cooking-queues">
+				<ul id="veggie-queue"></ul>
+				<ul id="beef-queue"></ul>
+			</div>
+			<div id="grill-spaces">
+				<script id="grill-template" type="text/template">
+					<div id="grill-{{grillNum}}" class="grill">
+						<ul class="cooking-list">
+						</ul>
+					</div>
+				</script>
+			</div>
 		</div>
 		<div id="served-module" class="burger-list">
 			<h2>Served</h2>
 			<ul id="served-list"></ul>
 		</div>
 		<script id="burger-template" type="text/template">
-				<div id="order-{{orderNumber}}" class="burger-item {{type}}">
+				<li id="order-{{orderNum}}" class="burger-item {{type}}">
 					<p class="visible">{{type}}</p>
 					<p class="hidden">notes: {{notes}}</p>
-					<p class="hidden">served: {{complete}}</p>
-					<p class="hidden">number: {{orderNumber}}</p>
-				</div>
+					<p class="hidden">status: <span class="status-text">{{status}}</span></p>
+					<p class="hidden">number: {{orderNum}}</p>
+				</li>
 		</script>
 	</main>
 </body>

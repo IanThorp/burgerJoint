@@ -28,4 +28,9 @@ class Grill{
 			return cookedBurgers;
 		})
 	}
+
+	render($location, template){
+		console.log(this)
+		$location.append(template(this))
+	}
 }
