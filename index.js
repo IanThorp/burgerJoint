@@ -59,14 +59,30 @@ function createDroppable() {
 	$("#cooking-module").droppable({
 		scope: "items",
 		drop: function(event, ui){
-			var htmlId = $(ui.draggable).attr("id");
-			var orderIndex = parseInt(htmlId.replace("order-", ""));
-			orders[orderIndex].status = "queued";
-			$(ui.draggable).find(".status-text").text("queued");
-			$(ui.draggable).detach().appendTo("#beef-queue");
-			$(ui.draggable).draggable({disabled: "true"});
+			var $draggedItem = $(ui.draggable)
+			var targetQueue = chooseQueue($draggedItem)
+			changeBurgerStatus($draggedItem, "queued")
+			$draggedItem.detach().appendTo(targetQueue);
+			$draggedItem.draggable({disabled: "true"});
+			checkQueueLength($ui.find(targetQueue + " li"));
 		}
 	})
+}
+
+function changeBurgerStatus(target, status){
+	var htmlId = target.attr("id");
+	var orderIndex = parseInt(htmlId.replace("order-", ""));
+	orders[orderIndex].status = status;
+	target.find(".status-text").text(status);
+}
+
+function chooseQueue(target) {
+	var htmlClass = target.attr("class");
+	if(htmlClass.includes("Beef")){
+		return "#beef-queue";
+	} else {
+		return "#veggie-queue"; 
+	}
 }
 
 function doubleClickListener(target){
@@ -77,12 +93,38 @@ function doubleClickListener(target){
 	})
 }
 
+function checkQueueLength(queue){
+	if(queue.length >= 3){
+		var targetIndex = null;
+		for(let i = 0, l = grills.length; i < l; i++){
+			if(grills[i].vacant === true){
+				targetIndex = i;
+				break
+			}
+		}
+		var burgers = []		
+		queue.each(function(index){
+			var idNumber = $(this).attr("id").replace("order-", "");
+			burgers.push(orders[idNumber - 1]);
+		})
+		if(typeof targetIndex === "number"){
+			var targetGrill = grills[targetIndex];
+			targetGrill.cook(burgers)
+			var grillNum = targetGrill.grillNum
+			var targetHtmlGrill = $("#grill-" + grillNum)
+			$(queue).detach().appendTo(targetHtmlGrill)
+		} else {
+			console.log('ERROR')
+		}
+	}
+}
+
 $(function(){
 	console.log("Success");
 	cacheDom();
 	generateGrills(5);
 	createDroppable();
-	continuouslyGenerateOrders(3000000, 0);
+	continuouslyGenerateOrders(1000, 0);
 })
 
 

@@ -4,6 +4,7 @@ class Grill{
 		this.cooking = [];
 		this.veggieQueue = [];
 		this.beefQueue = [];
+		this.vacant = true;
 	}
 
 	checkQueue(){
@@ -17,14 +18,20 @@ class Grill{
 	}	
 
 	cook(burgersArr){
-		this.cooking = burgersArr
+		this.cooking = burgersArr;
+		this.vacant = false;
 		var promise = new Promise(function(resolve, reject){
-			this.cooking.forEach(function(burger) {
+			burgersArr.forEach(function(burger, index) {
+				console.log(burgersArr[index])
+				console.log(this)
+				console.log(burger)
 				burger.cook(10000)
 			})
 		})
 		promise.then(function(cookedBurgers){
 			this.cooking = [];
+			this.vacant = true;
+			console.log("promisedFinished")
 			return cookedBurgers;
 		})
 	}
