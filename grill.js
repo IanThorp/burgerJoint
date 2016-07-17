@@ -17,22 +17,18 @@ class Grill{
 		}
 	}	
 
-	cook(burgersArr){
+	cook(burgersArr, time){
 		this.cooking = burgersArr;
 		this.vacant = false;
-		var promise = new Promise(function(resolve, reject){
-			burgersArr.forEach(function(burger, index) {
-				console.log(burgersArr[index])
-				console.log(this)
-				console.log(burger)
-				burger.cook(10000)
+		burgersArr.forEach(function(burger, index) {
+			burger.promise = new Promise(function(resolve){
+				burger.cook(10000);
 			})
-		})
-		promise.then(function(cookedBurgers){
-			this.cooking = [];
-			this.vacant = true;
-			console.log("promisedFinished")
-			return cookedBurgers;
+			burger.promise.then(function(cookedBurgers){
+				this.cooking = [];
+				this.vacant = true;
+				console.log("promisedFinished")
+			})
 		})
 	}
 

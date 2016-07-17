@@ -8,7 +8,7 @@ class Burger {
 
 	cook(cookTime) {
 		this.status = 'cooking';
-		setTimeout(function(){console.log("finished cooking one!!")}, cookTime)
+		setTimeout(function(){this.serve()}, cookTime)
 	}
 
 	serve() {

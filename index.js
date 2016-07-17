@@ -1,3 +1,4 @@
+var $ = require('jQuery')
 var grills = [];
 var orders = [];
 
@@ -99,7 +100,7 @@ function checkQueueLength(queue){
 		for(let i = 0, l = grills.length; i < l; i++){
 			if(grills[i].vacant === true){
 				targetIndex = i;
-				break
+				break;
 			}
 		}
 		var burgers = []		
@@ -124,7 +125,7 @@ $(function(){
 	cacheDom();
 	generateGrills(5);
 	createDroppable();
-	continuouslyGenerateOrders(1000, 0);
+	continuouslyGenerateOrders(3000, 0);
 })
 
 
