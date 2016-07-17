@@ -20,13 +20,13 @@ class Grill{
 	cook(burgersArr, time){
 		this.cooking = burgersArr;
 		this.vacant = false;
+		console.log(burgersArr)
 		burgersArr.forEach(function(burger, index) {
+			console.log(burger);
 			burger.promise = new Promise(function(resolve){
 				burger.cook(10000);
 			})
 			burger.promise.then(function(cookedBurgers){
-				this.cooking = [];
-				this.vacant = true;
 				console.log("promisedFinished")
 			})
 		})

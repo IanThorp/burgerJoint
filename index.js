@@ -1,4 +1,3 @@
-var $ = require('jQuery')
 var grills = [];
 var orders = [];
 
@@ -106,7 +105,7 @@ function checkQueueLength(queue){
 		var burgers = []		
 		queue.each(function(index){
 			var idNumber = $(this).attr("id").replace("order-", "");
-			burgers.push(orders[idNumber - 1]);
+			burgers.push(orders[idNumber]);
 		})
 		if(typeof targetIndex === "number"){
 			var targetGrill = grills[targetIndex];
@@ -125,7 +124,7 @@ $(function(){
 	cacheDom();
 	generateGrills(5);
 	createDroppable();
-	continuouslyGenerateOrders(3000, 0);
+	continuouslyGenerateOrders(1000, 0);
 })
 
 
