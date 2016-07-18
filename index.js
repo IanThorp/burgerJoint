@@ -1,5 +1,8 @@
 var grills = [];
 var orders = [];
+var cookTime = 30000;
+var orderInterval = 1000;
+var numGrills = 5;
 
 var $ui, $orderedList, $grillSpaces, $servedList, burgerTemplate, grillTemplate;
 
@@ -59,25 +62,48 @@ function createDroppable() {
 	$("#cooking-module").droppable({
 		scope: "items",
 		drop: function(event, ui){
-			var $draggedItem = $(ui.draggable)
-			var targetQueue = chooseQueue($draggedItem)
-			changeBurgerStatus($draggedItem, "queued")
-			$draggedItem.detach().appendTo(targetQueue);
-			$draggedItem.draggable({disabled: "true"});
+			var $draggedBurger = $(ui.draggable)
+			var targetQueue = chooseQueue($draggedBurger)
+			changeBurgerStatus($draggedBurger, "queued")
+			relocateHtmlBurger($draggedBurger, targetQueue)
+			$draggedBurger.draggable({disabled: "true"});
 			checkQueueLength($ui.find(targetQueue + " li"));
 		}
 	})
 }
 
-function changeBurgerStatus(target, status){
-	var htmlId = target.attr("id");
-	var orderIndex = parseInt(htmlId.replace("order-", ""));
-	orders[orderIndex].status = status;
-	target.find(".status-text").text(status);
+function findJsAndJqueryBurger(burger){
+	var jsBurger, jQueryBurger; 
+	if(burger instanceof jQuery){
+		var htmlId = burger.attr("id");
+		var orderIndex = parseInt(htmlId.replace("order-", ""));
+		jsBurger = orders[orderIndex];
+		jQueryBurger = burger;
+	} else {
+		var index = burger.orderNum;
+		var htmlId = "#order-" + burger.orderNum;
+		jsBurger = burger;
+		jQueryBurger = $(htmlId);
+	}
+	return {
+		$obj: jQueryBurger,
+		jsObj: jsBurger
+	}
 }
 
-function chooseQueue(target) {
-	var htmlClass = target.attr("class");
+function changeBurgerStatus(burger, status){ 
+	var target = findJsAndJqueryBurger(burger);
+	target.jsObj.status = status;
+	target['$obj'].find(".status-text").text(status);
+}
+
+function relocateHtmlBurger(burger, location){
+	var target = findJsAndJqueryBurger(burger)
+	target['$obj'].detach().appendTo(location)
+}
+
+function chooseQueue(burger) {
+	var htmlClass = burger.attr("class");
 	if(htmlClass.includes("Beef")){
 		return "#beef-queue";
 	} else {
@@ -104,8 +130,8 @@ function checkQueueLength(queue){
 		}
 		var burgers = []		
 		queue.each(function(index){
-			var idNumber = $(this).attr("id").replace("order-", "");
-			burgers.push(orders[idNumber]);
+			var burger = findJsAndJqueryBurger($(this))
+			burgers.push(burger.jsObj);
 		})
 		if(typeof targetIndex === "number"){
 			var targetGrill = grills[targetIndex];
@@ -122,9 +148,9 @@ function checkQueueLength(queue){
 $(function(){
 	console.log("Success");
 	cacheDom();
-	generateGrills(5);
+	generateGrills(numGrills);
 	createDroppable();
-	continuouslyGenerateOrders(1000, 0);
+	continuouslyGenerateOrders(orderInterval, 0);
 })
 
 

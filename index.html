@@ -2,13 +2,14 @@
 <html>
 <head>
 	<title>Burger Joint</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
-	<script type="text/javascript" src="grill.js"></script>
-	<script type="text/javascript" src="burger.js"></script>
-	<script type="text/javascript" src="index.js"></script>
+	<link rel="stylesheet" type="text/css" href="resources/jquery-ui.min.css">
 	<link rel="stylesheet" type="text/css" href="styles.css">
+	<script src="resources/jquery.min.js"></script>
+	<script src="resources/jquery-ui.min.js"></script>
+	<script src="resources/handlebars.min.js"></script>
+	<script src="grill.js"></script>
+	<script src="burger.js"></script>
+	<script src="index.js"></script>
 </head>
 <body>
 	<h1>Welcome to the burger joint management terminal</h1>
@@ -20,12 +21,19 @@
 		<div id="cooking-module" class="burger-list">
 			<h2>Cooking</h2>
 			<div id="cooking-queues">
-				<ul id="veggie-queue"></ul>
-				<ul id="beef-queue"></ul>
+				<div id="veggie-div">
+					<h2>Veggie Queue</h2>
+					<ul id="veggie-queue"></ul>
+				</div>
+				<div id="beef-div">
+					<h2>Beef Queue</h2>
+					<ul id="beef-queue"></ul>
+				</div>
 			</div>
 			<div id="grill-spaces">
 				<script id="grill-template" type="text/template">
 					<div id="grill-{{grillNum}}" class="grill">
+						<h2>Grill #{{grillNum}}</h2>
 						<ul class="cooking-list">
 						</ul>
 					</div>
@@ -39,7 +47,7 @@
 		<script id="burger-template" type="text/template">
 				<li id="order-{{orderNum}}" class="burger-item {{type}}">
 					<p class="visible">{{type}}</p>
-					<p class="hidden">notes: {{notes}}</p>
+					<p class="hidden">notes: <input value='{{notes}}' id="notes-input"></p>
 					<p class="hidden">status: <span class="status-text">{{status}}</span></p>
 					<p class="hidden">number: <span class="order-num">{{orderNum}}</span></p>
 				</li>

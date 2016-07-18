@@ -6,14 +6,15 @@ class Burger {
 		this.status = 'ordered';
 	}
 
-	cook(cookTime) {
+	cook(cookTime, cb) {
 		this.status = 'cooking';
 		var that = this
-		setTimeout(function(){that.serve()}, cookTime)
+		setTimeout(function(){cb(that.serve())}, cookTime)
 	}
 
 	serve() {
-		this.status = 'served';
+		changeBurgerStatus(this, "served");
+		relocateHtmlBurger(this, "#served-list");
 		return this;
 	}
 }

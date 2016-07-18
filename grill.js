@@ -1,3 +1,5 @@
+
+
 class Grill{
 	constructor(grillNum) {
 		this.grillNum = grillNum;
@@ -20,20 +22,20 @@ class Grill{
 	cook(burgersArr, time){
 		this.cooking = burgersArr;
 		this.vacant = false;
-		console.log(burgersArr)
+		var that = this;
 		burgersArr.forEach(function(burger, index) {
-			console.log(burger);
-			burger.promise = new Promise(function(resolve){
-				burger.cook(10000);
+			burger.promise = new Promise(function(resolve, reject){
+				burger.cook(cookTime, resolve);
 			})
-			burger.promise.then(function(cookedBurgers){
-				console.log("promisedFinished")
+			burger.promise
+			.then(function(cookedBurger){
+				that.vacant = true;
+				that.cooking = [];
 			})
 		})
 	}
 
 	render($location, template){
-		console.log(this)
 		$location.append(template(this))
 	}
 }
