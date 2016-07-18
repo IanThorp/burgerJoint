@@ -57,13 +57,22 @@ main ul {
 	width: 100%;
 }
 
-#beef-queue, #veggie-queue {
+#beef-div, #veggie-div {
 	border: 1px, solid, purple;
 	height: 200px;
 	width: 200px;
-	padding-left: 0;
 	background-color: cornsilk;
 	border: 1px solid black;
+	margin-bottom: 5px;
+}
+
+h3 {
+	margin-top: 5px;
+	margin-bottom: 0;
+}
+
+#beef-queue, #veggie-queue {
+	padding-left: 0;
 }
 
 #grill-spaces {

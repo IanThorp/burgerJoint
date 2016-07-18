@@ -4,11 +4,13 @@ var cookTime = 30000;
 var orderInterval = 1000;
 var numGrills = 5;
 
-var $ui, $orderedList, $grillSpaces, $servedList, burgerTemplate, grillTemplate;
+var $ui, $orderedList, $veggieQueue, $beefQueue, $grillSpaces, $servedList, burgerTemplate, grillTemplate;
 
 function cacheDom() {
 	$ui = $('main');
 	$orderedList = $ui.find("#ordered-list");
+	$veggieQueue = $ui.find("#veggie-queue");
+	$beefQueue = $ui.find("#beef-queue");
 	$grillSpaces = $ui.find("#grill-spaces");
 	$servedList = $ui.find("#served-list");
 	burgerTemplate = Handlebars.compile($ui.find("#burger-template").html());
@@ -67,7 +69,7 @@ function createDroppable() {
 			changeBurgerStatus($draggedBurger, "queued")
 			relocateHtmlBurger($draggedBurger, targetQueue)
 			$draggedBurger.draggable({disabled: "true"});
-			checkQueueLength($ui.find(targetQueue + " li"));
+			checkQueueLength(targetQueue);
 		}
 	})
 }
@@ -103,11 +105,12 @@ function relocateHtmlBurger(burger, location){
 }
 
 function chooseQueue(burger) {
-	var htmlClass = burger.attr("class");
+	var target = findJsAndJqueryBurger(burger)
+	var htmlClass = target['$obj'].attr("class");
 	if(htmlClass.includes("Beef")){
-		return "#beef-queue";
+		return $beefQueue;
 	} else {
-		return "#veggie-queue"; 
+		return $veggieQueue; 
 	}
 }
 
@@ -120,27 +123,35 @@ function doubleClickListener(target){
 }
 
 function checkQueueLength(queue){
-	if(queue.length >= 3){
-		var targetIndex = null;
-		for(let i = 0, l = grills.length; i < l; i++){
-			if(grills[i].vacant === true){
-				targetIndex = i;
-				break;
-			}
-		}
-		var burgers = []		
-		queue.each(function(index){
-			var burger = findJsAndJqueryBurger($(this))
-			burgers.push(burger.jsObj);
+	if(queue instanceof Array){
+		queue.forEach(function(oneQueue){
+			checkQueueLength(oneQueue);
 		})
-		if(typeof targetIndex === "number"){
-			var targetGrill = grills[targetIndex];
-			targetGrill.cook(burgers)
-			var grillNum = targetGrill.grillNum
-			var targetHtmlGrill = $("#grill-" + grillNum)
-			$(queue).detach().appendTo(targetHtmlGrill)
-		} else {
-			console.log('ERROR')
+	} else {
+		var queueItems = queue.find('li')
+		if(queueItems.length >= 3){
+			var targetIndex = null;
+			for(let i = 0, l = grills.length; i < l; i++){
+				if(grills[i].vacant === true){
+					targetIndex = i;
+					grills[i].vacant = false
+					break;
+				}
+			}
+			var burgers = []		
+			queueItems.each(function(index){
+				var burger = findJsAndJqueryBurger($(this))
+				burgers.push(burger.jsObj);
+			})
+			if(typeof targetIndex === "number"){
+				var targetGrill = grills[targetIndex];
+				targetGrill.cook(burgers)
+				var grillNum = targetGrill.grillNum
+				var targetHtmlGrill = $("#grill-" + grillNum)
+				$(queueItems).detach().appendTo(targetHtmlGrill)
+			} else {
+				console.log('ERROR')
+			}
 		}
 	}
 }

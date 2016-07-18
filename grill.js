@@ -31,6 +31,7 @@ class Grill{
 			.then(function(cookedBurger){
 				that.vacant = true;
 				that.cooking = [];
+				checkQueueLength([$beefQueue, $veggieQueue]);
 			})
 		})
 	}
