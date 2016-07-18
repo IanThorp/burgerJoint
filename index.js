@@ -1,7 +1,7 @@
 var grills = [];
 var orders = [];
-var cookTime = 30000;
-var orderInterval = 1000;
+var cookTime = 10000;
+var orderInterval = 3000;
 var numGrills = 5;
 
 var $ui, $orderedList, $veggieQueue, $beefQueue, $grillSpaces, $servedList, burgerTemplate, grillTemplate;
@@ -123,37 +123,40 @@ function doubleClickListener(target){
 }
 
 function checkQueueLength(queue){
-	if(queue instanceof Array){
-		queue.forEach(function(oneQueue){
-			checkQueueLength(oneQueue);
-		})
-	} else {
-		var queueItems = queue.find('li')
-		if(queueItems.length >= 3){
-			var targetIndex = null;
-			for(let i = 0, l = grills.length; i < l; i++){
-				if(grills[i].vacant === true){
-					targetIndex = i;
-					grills[i].vacant = false
-					break;
-				}
-			}
-			var burgers = []		
-			queueItems.each(function(index){
-				var burger = findJsAndJqueryBurger($(this))
-				burgers.push(burger.jsObj);
-			})
-			if(typeof targetIndex === "number"){
-				var targetGrill = grills[targetIndex];
-				targetGrill.cook(burgers)
-				var grillNum = targetGrill.grillNum
-				var targetHtmlGrill = $("#grill-" + grillNum)
-				$(queueItems).detach().appendTo(targetHtmlGrill)
-			} else {
-				console.log('ERROR')
-			}
+	var queueItems = queue.find('li')
+	if(queueItems.length >= 3){
+		var targetGrill = findVacantGrill();
+		var burgers = findAllBurgerObjects(queueItems);		
+		if(targetGrill){
+			populateGrill(targetGrill, burgers, queueItems)
+		} else {
+			console.log('No grill available')
 		}
 	}
+}
+
+function findVacantGrill(){
+	for(let i = 0, l = grills.length; i < l; i++){
+		if(grills[i].vacant === true){
+			return grills[i];
+		}
+	}
+}
+
+function findAllBurgerObjects(listItemArr){
+	burgers = [];
+	listItemArr.each(function(index){
+		var burger = findJsAndJqueryBurger($(this))
+		burgers.push(burger.jsObj);
+	})
+	return burgers;
+}
+
+function populateGrill(grill, burgers, burgersList){
+	grill.cook(burgers)
+	var grillNum = grill.grillNum
+	var targetHtmlGrill = $("#grill-" + grillNum)
+	$(burgersList).detach().appendTo(targetHtmlGrill)
 }
 
 $(function(){

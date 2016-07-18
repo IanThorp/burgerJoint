@@ -4,35 +4,27 @@ class Grill{
 	constructor(grillNum) {
 		this.grillNum = grillNum;
 		this.cooking = [];
-		this.veggieQueue = [];
-		this.beefQueue = [];
 		this.vacant = true;
 	}
-
-	checkQueue(){
-		if(this.veggieQueue >= 3){
-			cook(this.veggieQueue)
-			this.veggieQueue = [];
-		} else if(this.beefQueue >= 3){
-			cook(this.beefQueue)
-			this.beefQueue = [];
-		}
-	}	
 
 	cook(burgersArr, time){
 		this.cooking = burgersArr;
 		this.vacant = false;
+		var allPromises = []
 		var that = this;
 		burgersArr.forEach(function(burger, index) {
 			burger.promise = new Promise(function(resolve, reject){
 				burger.cook(cookTime, resolve);
 			})
-			burger.promise
-			.then(function(cookedBurger){
-				that.vacant = true;
-				that.cooking = [];
-				checkQueueLength([$beefQueue, $veggieQueue]);
-			})
+			allPromises.push(burger.promise);
+		})
+		Promise.all(allPromises)
+		.then(function(){
+			that.vacant = true;
+			that.cooking = [];
+			checkQueueLength($beefQueue)
+			checkQueueLength($veggieQueue)
+			// checkBothQueues();
 		})
 	}
 
