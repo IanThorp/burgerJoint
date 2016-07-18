@@ -13,8 +13,8 @@ class Burger {
 	}
 
 	serve() {
-		changeBurgerStatus(this, "served");
-		relocateHtmlBurger(this, "#served-list");
+		mainJs.changeBurgerStatus(this, "served");
+		mainJs.relocateHtmlBurger(this, "#served-list");
 		return this;
 	}
 }

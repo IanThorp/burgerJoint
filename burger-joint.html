@@ -9,10 +9,11 @@
 	<script src="resources/handlebars.min.js"></script>
 	<script src="grill.js"></script>
 	<script src="burger.js"></script>
-	<script src="index.js"></script>
+	<script src="burgerJoint.js"></script>
 </head>
 <body>
 	<h1>Welcome to the burger joint management terminal</h1>
+	<h4>Double click burger for more info</h4>
 	<main>
 		<div id="ordered-module" class="burger-list">
 			<h2>Ordered</h2>
@@ -55,7 +56,3 @@
 	</main>
 </body>
 </html>
-
-<!-- Bob's running a burger place. It's actually super busy, so orders come in many times a minute, and they get put into the "Ordered" pile. He's got five grill spaces. Bob likes efficient use of space, and keeping vegetarians happy, so he only cooks beef burgers together on one grill space, and veggie burgers only together on a different grill space. And he only starts cooking once there's at least 3 patties ready to cook together on a grill space. Once they start cooking, they're done in 10 seconds, and are served, and the grill space is cleaned and freed up for the next batch, of either type.
-
-The challenge is to build a UI for the staff to get trained on managing the cooking process. The system generates random orders every few seconds, piling them into "Ordered" pile. The user can drag orders from ordered to a numbered grill space at any time, and the system notices when there's enough (three) to start cooking them, and times 30 seconds once there's three of the same type in there, and puts them into the served section when done, as a group together. Bonus points if the staff user can annotate each order and group with text notes, such as "well done, no cheese". -->

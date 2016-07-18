@@ -14,7 +14,7 @@ class Grill{
 		var that = this;
 		burgersArr.forEach(function(burger, index) {
 			burger.promise = new Promise(function(resolve, reject){
-				burger.cook(cookTime, resolve);
+				burger.cook(mainJs.cookTime, resolve);
 			})
 			allPromises.push(burger.promise);
 		})
@@ -22,9 +22,8 @@ class Grill{
 		.then(function(){
 			that.vacant = true;
 			that.cooking = [];
-			checkQueueLength($beefQueue)
-			checkQueueLength($veggieQueue)
-			// checkBothQueues();
+			mainJs.checkQueueLength("beef");
+			mainJs.checkQueueLength("veggie");
 		})
 	}
 

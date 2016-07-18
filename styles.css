@@ -1,3 +1,5 @@
+/*BODY*/
+
 body {
 	font-family: helvetica;
 	display: flex;
@@ -5,9 +7,12 @@ body {
 	align-items: center;
 }
 
-.hidden {
-	display: none;
+ul {
+	padding-left: 0;
+	list-style: none;
 }
+
+/*MAIN*/
 
 main {
 	display: flex;
@@ -27,8 +32,20 @@ main div {
 	align-items: center;	
 }
 
-main ul {
-	list-style: none;
+.Vegetarian {
+	background-color: #BCED91;
+}
+
+.Beef {
+	background-color: #C67171;
+}
+
+.visible {
+	display: unset;
+}
+
+.hidden {
+	display: none;
 }
 
 .burger-list > ul {
@@ -49,10 +66,13 @@ main ul {
 	margin: 0;
 }
 
+/*COOKING MODULE*/
+
 #cooking-module {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	flex: 2;
 }
 
 #cooking-queues {
@@ -92,26 +112,15 @@ main ul {
 	margin: 10px;
 }
 
-#cooking-module {
-	flex: 2;
-}
+
+/*ORDERED MODULE*/
 
 #ordered-module {
 	flex: 1;
 }
 
+/*SERVED MODULE*/
+
 #served-module {
 	flex: 1;
-}
-
-.Vegetarian {
-	background-color: #BCED91;
-}
-
-.Beef {
-	background-color: #C67171;
-}
-
-.visible {
-	display: unset;
 }
