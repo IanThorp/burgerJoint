@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Burger Joint</title>
+	<link rel="stylesheet" type="text/css" href="resources/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<script src="resources/jquery.min.js"></script>
+	<script src="resources/jquery-ui.min.js"></script>
+	<script src="resources/handlebars.min.js"></script>
+	<script src="grill.js"></script>
+	<script src="burger.js"></script>
+	<script src="burgerJoint.js"></script>
+</head>
+<body>
+	<h1>Welcome to the burger joint management terminal</h1>
+	<h4>Double click burger for more info</h4>
+	<main>
+		<div id="ordered-module" class="burger-list">
+			<h2>Ordered</h2>
+			<ul id="ordered-list""></ul>
+		</div>
+		<div id="cooking-module" class="burger-list">
+			<h2>Cooking</h2>
+			<div id="cooking-queues">
+				<div id="veggie-div">
+					<h3>Veggie Queue</h3>
+					<ul id="veggie-queue"></ul>
+				</div>
+				<div id="beef-div">
+					<h3>Beef Queue</h3>
+					<ul id="beef-queue"></ul>
+				</div>
+			</div>
+			<div id="grill-spaces">
+				<script id="grill-template" type="text/template">
+					<div id="grill-{{grillNum}}" class="grill">
+						<h3>Grill #{{grillNum}}</h3>
+						<ul class="cooking-list">
+						</ul>
+					</div>
+				</script>
+			</div>
+		</div>
+		<div id="served-module" class="burger-list">
+			<h2>Served</h2>
+			<ul id="served-list"></ul>
+		</div>
+		<script id="burger-template" type="text/template">
+				<li id="order-{{orderNum}}" class="burger-item {{type}}">
+					<p class="visible">{{type}}</p>
+					<p class="hidden">notes: <input value='{{notes}}' id="notes-input"></p>
+					<p class="hidden">status: <span class="status-text">{{status}}</span></p>
+					<p class="hidden">number: <span class="order-num">{{orderNum}}</span></p>
+				</li>
+		</script>
+	</main>
+</body>
+</html>
